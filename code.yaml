@@ -1,0 +1,16 @@
+name: JSONAnalysis
+version: 1.0
+
+languages:
+  json:
+    properties:
+      - name: file-patterns
+        value: "**/*.json"
+
+queries:
+  - name: detect-potential-secrets
+    language: json
+    entry-point: src/json
+    severity: "warning"
+    metadata:
+      description: "Detect potential secrets in JSON files"
