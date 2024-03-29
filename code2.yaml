@@ -1,0 +1,30 @@
+name: CodeQL Analysis
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  codeql-analysis:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup CodeQL
+        uses: github/codeql-action/setup@v1
+        with:
+          languages: json
+
+      - name: Build CodeQL database
+        run: |
+          codeql database create my-database --language=javascript
+          codeql database upgrade my-database
+          codeql database analyze my-database --format=sarif-latest --output=results.sarif
+
+      - name: Upload SARIF results
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: results.sarif
